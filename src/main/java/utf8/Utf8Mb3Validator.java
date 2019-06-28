@@ -18,8 +18,8 @@ class Utf8Mb3Validator {
         // https://stackoverflow.com/q/56800767/3591946
         return input
                 .codePoints() // get Unicode code points
-                .filter(i -> Character.charCount(i) > 1) // filter BMP characters
-                .mapToObj(i -> new String(Character.toChars(i))) // convert code points into Strings
+                .filter(codePoint -> Character.charCount(codePoint) > 1) // filter BMP characters
+                .mapToObj(codePoint -> new String(Character.toChars(codePoint))) // convert code points into Strings
                 .collect(Collectors.toSet());
     }
 }
