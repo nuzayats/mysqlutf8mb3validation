@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 class Utf8Mb3Validator {
 
     /**
-     * finds characters which can’t be stored in a MySQL “utf8” column out of a given String.
+     * Finds characters which can’t be stored in a MySQL “utf8” column out of the given String.
      *
      * @param input a String which you want to check
      * @return a Set which contains strings that can't be inserted into MySQL "utf8" columns
