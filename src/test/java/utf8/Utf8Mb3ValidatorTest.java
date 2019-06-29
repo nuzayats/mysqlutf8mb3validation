@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class Utf8Mb3ValidatorTest {
 
@@ -23,5 +22,22 @@ class Utf8Mb3ValidatorTest {
         Set<String> actual = sut.findProblematicStrings("Musical notes 🎵🎶");
 
         assertThat(actual).containsOnly("🎵", "🎶");
+    }
+
+    @Test
+    void border() {
+        //noinspection StringBufferReplaceableByString
+        String input = new StringBuilder()
+                .append(Character.toChars(0xFFFE))
+                .append(Character.toChars(0xFFFF))
+                .append(Character.toChars(0x10000))
+                .append(Character.toChars(0x10001))
+                .toString();
+
+        Set<String> actual = sut.findProblematicStrings(input);
+
+        assertThat(actual).containsOnly(
+                new String(Character.toChars(0x10000)),
+                new String(Character.toChars(0x10001)));
     }
 }

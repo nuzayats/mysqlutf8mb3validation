@@ -20,7 +20,8 @@ class Utf8Mb3Validator {
         // taken from https://stackoverflow.com/a/56814133/3591946
         return input
                 .codePoints()
-                .filter(codePoint -> codePoint >= 0x1_0000) // https://en.wikipedia.org/wiki/UTF-8
+//                .filter(codePoint -> codePoint >= 0x1_0000) // https://en.wikipedia.org/wiki/UTF-8
+                .filter(codePoint -> codePoint > 0xFFFF)
                 .mapToObj(codePoint -> new String(Character.toChars(codePoint)))
                 .collect(Collectors.toSet());
 
