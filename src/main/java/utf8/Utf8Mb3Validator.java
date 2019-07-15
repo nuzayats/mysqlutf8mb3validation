@@ -17,19 +17,12 @@ class Utf8Mb3Validator {
         // https://www.oracle.com/technetwork/java/javase/downloads/supplementary-142654.html?printOnly=1
         // https://stackoverflow.com/q/56800767/3591946
 
+        // taken from https://forums.mysql.com/read.php?39,675862,675956#msg-675956
         return input
-                .codePoints()
-                // taken from https://stackoverflow.com/a/56814133/3591946
-//                .filter(codePoint -> codePoint >= 0x1_0000) // https://en.wikipedia.org/wiki/UTF-8
-//                .filter(codePoint -> codePoint > 0xFFFF)
-                .filter(codePoint -> Character.charCount(codePoint) > 1) // search for non-BMP characters
-                .mapToObj(codePoint -> new String(Character.toChars(codePoint)))
+                .codePoints() // get Unicode code points
+                .filter(Character::isSupplementaryCodePoint) // filter BMP characters
+                .mapToObj(Character::toChars) // convert code points into char[]
+                .map(String::new) // convert char[] into Strings
                 .collect(Collectors.toSet());
-
-//        return input
-//                .codePoints() // get Unicode code points
-//                .filter(codePoint -> Character.charCount(codePoint) > 1) // search for non-BMP characters
-//                .mapToObj(codePoint -> new String(Character.toChars(codePoint))) // convert code points into Strings
-//                .collect(Collectors.toSet());
     }
 }
